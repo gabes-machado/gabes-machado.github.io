@@ -1,9 +1,18 @@
+import { getNextMenuOpenState } from "./navigation-state.mjs";
+
 const SECTION_IDS = ["home", "about", "now"];
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
+const MOBILE_NAVIGATION_QUERY = "(max-width: 56rem)";
+
 const ACTIVE_SECTION_THRESHOLDS = [0, 0.1, 0.25, 0.4, 0.6, 0.8];
 
+/**
+ * Initializes the navigation, header state, terminal shortcut, and current year.
+ *
+ * @returns {void}
+ */
 export function initializeSiteShell() {
   const header = document.querySelector("[data-site-header]");
 
@@ -22,6 +31,7 @@ export function initializeSiteShell() {
   }
 
   initializeHeaderScrollState(header);
+  initializeHeaderNavigation(header);
 
   initializeActiveSectionNavigation({
     navigationLinks,
@@ -35,6 +45,12 @@ export function initializeSiteShell() {
   });
 }
 
+/**
+ * Updates the header's elevated visual state without running work per scroll event.
+ *
+ * @param {Element | null} header - Site header candidate.
+ * @returns {void}
+ */
 function initializeHeaderScrollState(header) {
   if (!(header instanceof HTMLElement)) {
     return;
@@ -42,12 +58,13 @@ function initializeHeaderScrollState(header) {
 
   let updateFrameId = null;
 
+  /** Applies the header state during the next available animation frame. */
   const updateHeaderState = () => {
     updateFrameId = null;
-
     header.dataset.scrolled = window.scrollY > 24 ? "true" : "false";
   };
 
+  /** Coalesces scroll events into a single visual update per frame. */
   const scheduleUpdate = () => {
     if (updateFrameId !== null) {
       return;
@@ -63,6 +80,120 @@ function initializeHeaderScrollState(header) {
   updateHeaderState();
 }
 
+/**
+ * Initializes the responsive navigation while preserving a visible no-script fallback.
+ *
+ * @param {Element | null} header - Site header candidate.
+ * @returns {void}
+ */
+function initializeHeaderNavigation(header) {
+  if (!(header instanceof HTMLElement)) {
+    return;
+  }
+
+  const navigation = header.querySelector("[data-site-navigation]");
+  const toggle = header.querySelector("[data-navigation-toggle]");
+
+  if (
+    !(navigation instanceof HTMLElement) ||
+    !(toggle instanceof HTMLButtonElement)
+  ) {
+    return;
+  }
+
+  const mobileNavigationQuery = window.matchMedia(MOBILE_NAVIGATION_QUERY);
+
+  /**
+   * Applies menu visibility and its matching accessible label.
+   *
+   * @param {boolean} isOpen - Whether the navigation menu should be open.
+   * @param {object} options - Focus management options.
+   * @param {boolean} options.restoreFocus - Whether focus should return to the toggle.
+   * @returns {void}
+   */
+  const setMenuState = (isOpen, { restoreFocus = false } = {}) => {
+    header.dataset.navigationOpen = String(isOpen);
+    toggle.setAttribute("aria-expanded", String(isOpen));
+
+    const accessibleLabel = isOpen ? "Close navigation" : "Open navigation";
+    const label = toggle.querySelector(".visually-hidden");
+
+    if (label instanceof HTMLElement) {
+      label.textContent = accessibleLabel;
+    }
+
+    if (restoreFocus) {
+      toggle.focus();
+    }
+  };
+
+  /**
+   * Closes the navigation menu after selection or dismissal.
+   *
+   * @param {object} options - Focus management options.
+   * @param {boolean} options.restoreFocus - Whether focus should return to the toggle.
+   * @returns {void}
+   */
+  const closeMenu = ({ restoreFocus = false } = {}) => {
+    setMenuState(
+      getNextMenuOpenState({
+        isOpen: header.dataset.navigationOpen === "true",
+        action: "close",
+        isMobile: mobileNavigationQuery.matches,
+      }),
+      { restoreFocus },
+    );
+  };
+
+  toggle.addEventListener("click", () => {
+    setMenuState(
+      getNextMenuOpenState({
+        isOpen: header.dataset.navigationOpen === "true",
+        action: "toggle",
+        isMobile: mobileNavigationQuery.matches,
+      }),
+    );
+  });
+
+  navigation.addEventListener("click", (event) => {
+    if (event.target instanceof HTMLAnchorElement) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (event.target instanceof Node && !header.contains(event.target)) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && header.dataset.navigationOpen === "true") {
+      closeMenu({ restoreFocus: true });
+    }
+  });
+
+  mobileNavigationQuery.addEventListener("change", () => {
+    setMenuState(
+      getNextMenuOpenState({
+        isOpen: header.dataset.navigationOpen === "true",
+        action: "viewport-change",
+        isMobile: mobileNavigationQuery.matches,
+      }),
+    );
+  });
+
+  setMenuState(false);
+  header.dataset.siteShellReady = "true";
+}
+
+/**
+ * Tracks visible homepage sections and reflects the active location in navigation.
+ *
+ * @param {object} options - Active-navigation options.
+ * @param {HTMLAnchorElement[]} options.navigationLinks - Homepage section links.
+ * @returns {void}
+ */
 function initializeActiveSectionNavigation({ navigationLinks }) {
   if (navigationLinks.length === 0) {
     return;
@@ -81,17 +212,14 @@ function initializeActiveSectionNavigation({ navigationLinks }) {
       section.id,
       {
         ratio: 0,
-
         distanceFromActivationLine: Number.POSITIVE_INFINITY,
       },
     ]),
   );
 
-  const initialSectionId = getInitialSectionId();
-
   setActiveNavigationLink({
     navigationLinks,
-    activeSectionId: initialSectionId,
+    activeSectionId: getInitialSectionId(),
   });
 
   if (!("IntersectionObserver" in window)) {
@@ -107,7 +235,6 @@ function initializeActiveSectionNavigation({ navigationLinks }) {
 
         intersectionState.set(entry.target.id, {
           ratio: entry.isIntersecting ? entry.intersectionRatio : 0,
-
           distanceFromActivationLine: Math.abs(
             entry.boundingClientRect.top - window.innerHeight * 0.28,
           ),
@@ -116,20 +243,13 @@ function initializeActiveSectionNavigation({ navigationLinks }) {
 
       const activeSectionId = findActiveSectionId(intersectionState);
 
-      if (!activeSectionId) {
-        return;
+      if (activeSectionId) {
+        setActiveNavigationLink({ navigationLinks, activeSectionId });
       }
-
-      setActiveNavigationLink({
-        navigationLinks,
-        activeSectionId,
-      });
     },
     {
       root: null,
-
       rootMargin: "-12% 0px -48% 0px",
-
       threshold: ACTIVE_SECTION_THRESHOLDS,
     },
   );
@@ -141,17 +261,20 @@ function initializeActiveSectionNavigation({ navigationLinks }) {
   window.addEventListener("hashchange", () => {
     const sectionId = getSectionIdFromHash();
 
-    if (!sectionId) {
-      return;
+    if (sectionId) {
+      setActiveNavigationLink({
+        navigationLinks,
+        activeSectionId: sectionId,
+      });
     }
-
-    setActiveNavigationLink({
-      navigationLinks,
-      activeSectionId: sectionId,
-    });
   });
 }
 
+/**
+ * Moves focus to same-page sections after navigation without changing scroll behavior.
+ *
+ * @returns {void}
+ */
 function initializeSectionLinkFocus() {
   const sectionLinks = [
     ...document.querySelectorAll(
@@ -172,21 +295,23 @@ function initializeSectionLinkFocus() {
         return;
       }
 
-      const sectionId = link.hash.replace(/^#/, "");
+      const targetSection = document.getElementById(
+        link.hash.replace(/^#/, ""),
+      );
 
-      const targetSection = document.getElementById(sectionId);
-
-      if (!(targetSection instanceof HTMLElement)) {
-        return;
+      if (targetSection instanceof HTMLElement) {
+        targetSection.focus({ preventScroll: true });
       }
-
-      targetSection.focus({
-        preventScroll: true,
-      });
     });
   }
 }
 
+/**
+ * Chooses the most prominent currently visible homepage section.
+ *
+ * @param {Map<string, {ratio: number, distanceFromActivationLine: number}>} intersectionState - Section visibility measurements.
+ * @returns {string | null} Active section identifier, if one is visible.
+ */
 function findActiveSectionId(intersectionState) {
   const visibleSections = [...intersectionState.entries()].filter(
     ([, state]) => state.ratio > 0,
@@ -211,20 +336,32 @@ function findActiveSectionId(intersectionState) {
   return visibleSections[0][0];
 }
 
+/**
+ * Applies the active-location state to homepage navigation links.
+ *
+ * @param {object} options - Active-link options.
+ * @param {HTMLAnchorElement[]} options.navigationLinks - Homepage section links.
+ * @param {string} options.activeSectionId - Active homepage section identifier.
+ * @returns {void}
+ */
 function setActiveNavigationLink({ navigationLinks, activeSectionId }) {
   for (const link of navigationLinks) {
-    const isActive = link.dataset.sectionLink === activeSectionId;
-
-    if (isActive) {
+    if (link.dataset.sectionLink === activeSectionId) {
       link.setAttribute("aria-current", "location");
-
-      continue;
+    } else {
+      link.removeAttribute("aria-current");
     }
-
-    link.removeAttribute("aria-current");
   }
 }
 
+/**
+ * Connects the homepage terminal shortcut to focus and scroll behavior.
+ *
+ * @param {object} options - Terminal shortcut options.
+ * @param {Element | null} options.terminalTrigger - Terminal trigger candidate.
+ * @param {Element | null} options.terminalInput - Terminal input candidate.
+ * @returns {void}
+ */
 function initializeTerminalTrigger({ terminalTrigger, terminalInput }) {
   if (!(terminalTrigger instanceof HTMLButtonElement)) {
     return;
@@ -238,26 +375,32 @@ function initializeTerminalTrigger({ terminalTrigger, terminalInput }) {
 
   terminalTrigger.addEventListener("click", () => {
     if (terminalInput instanceof HTMLInputElement) {
-      terminalInput.focus({
-        preventScroll: true,
-      });
+      terminalInput.focus({ preventScroll: true });
     }
 
-    const prefersReducedMotion =
-      window.matchMedia(REDUCED_MOTION_QUERY).matches;
-
     homeSection.scrollIntoView({
-      behavior: prefersReducedMotion ? "auto" : "smooth",
-
+      behavior: window.matchMedia(REDUCED_MOTION_QUERY).matches
+        ? "auto"
+        : "smooth",
       block: "start",
     });
   });
 }
 
+/**
+ * Resolves the initial homepage section from the URL, defaulting to home.
+ *
+ * @returns {string} Initial homepage section identifier.
+ */
 function getInitialSectionId() {
   return getSectionIdFromHash() ?? "home";
 }
 
+/**
+ * Reads a supported homepage section identifier from the current URL hash.
+ *
+ * @returns {string | null} Supported section identifier, if present.
+ */
 function getSectionIdFromHash() {
   const sectionId = window.location.hash.replace(/^#/, "");
 

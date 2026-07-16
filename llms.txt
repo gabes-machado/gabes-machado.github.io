@@ -7,6 +7,8 @@
 - [Portfolio home](https://gabes-machado.github.io/): Interactive terminal introduction and generative ASCII background.
 - [About](https://gabes-machado.github.io/#about): Professional profile, location, domain and engineering focus.
 - [Now](https://gabes-machado.github.io/#now): Current work, studies and areas of technological exploration.
+- [Talks](https://gabes-machado.github.io/talks/): Talk videos with related transcripts and slides.
+- [Links](https://gabes-machado.github.io/links/): Professional profiles, talks and contact destinations.
 
 ## Machine-readable resources
 
