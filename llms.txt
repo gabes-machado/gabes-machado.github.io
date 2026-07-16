@@ -1,0 +1,14 @@
+# Gabes Machado
+
+> Personal portfolio of Gabes Machado, a software engineer based in Brasília, Brazil, focused on resilient systems, banking technology, security, DevOps and interactive web experiences.
+
+## Portfolio
+
+- [Portfolio home](https://gabes-machado.github.io/): Interactive terminal introduction and generative ASCII background.
+- [About](https://gabes-machado.github.io/#about): Professional profile, location, domain and engineering focus.
+- [Now](https://gabes-machado.github.io/#now): Current work, studies and areas of technological exploration.
+
+## Machine-readable resources
+
+- [Sitemap](https://gabes-machado.github.io/sitemap.xml): List of public and indexable pages.
+- [Robots policy](https://gabes-machado.github.io/robots.txt): Access instructions for automated crawlers.

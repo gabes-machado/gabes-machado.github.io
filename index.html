@@ -1,42 +1,558 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Valgarde</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="preload"
-      href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
-      as="style"
-      onload="this.rel='stylesheet'"
-    />
-    <noscript
-      ><link
-        href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
-        rel="stylesheet"
-    /></noscript>
-    <link rel="icon" href="favicon.png" type="image/png" />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <section class="hero-section">
-      <h1 class="ubuntu-bold hero-text">Great Code.</h1>
-      <h2 class="ubuntu-bold hero-text">No Nonsense.</h2>
-      <a
-        href="#next-section"
-        class="scroll-down"
-        aria-label="Scroll down to next section"
-        >&#8595;</a
-      >
-    </section>
 
-    <section id="next-section" class="next-section">
-      <h2>Projects</h2>
-      <a href="#">API Name 1</a>
-      <a href="#">API Name 2</a>
-      <a href="#">API Name 3</a>
-    </section>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Gabes Machado | Software Engineer</title>
+
+    <meta
+      name="description"
+      content="Software engineer focused on resilient systems, banking technology, security, DevOps and interactive web experiences."
+    />
+
+    <meta name="author" content="Gabes Machado" />
+
+    <meta name="theme-color" content="#07090b" />
+
+    <link rel="canonical" href="https://gabes-machado.github.io/" />
+
+    <link rel="icon" href="./assets/icons/favicon.svg" type="image/svg+xml" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+
+    <meta property="og:site_name" content="Gabes Machado" />
+
+    <meta property="og:title" content="Gabes Machado | Software Engineer" />
+
+    <meta
+      property="og:description"
+      content="Software engineer focused on resilient systems, banking technology, security, DevOps and interactive web experiences."
+    />
+
+    <meta property="og:url" content="https://gabes-machado.github.io/" />
+
+    <meta property="og:locale" content="en_US" />
+
+    <meta
+      property="og:image"
+      content="https://gabes-machado.github.io/assets/images/social-preview.png"
+    />
+
+    <meta property="og:image:type" content="image/png" />
+
+    <meta property="og:image:width" content="1200" />
+
+    <meta property="og:image:height" content="630" />
+
+    <meta
+      property="og:image:alt"
+      content="Gabes Machado, Software Engineer, with a terminal and generative ASCII artwork."
+    />
+
+    <!-- Social cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <meta name="twitter:title" content="Gabes Machado | Software Engineer" />
+
+    <meta
+      name="twitter:description"
+      content="Software engineer focused on resilient systems, banking technology, security, DevOps and interactive web experiences."
+    />
+
+    <meta
+      name="twitter:image"
+      content="https://gabes-machado.github.io/assets/images/social-preview.png"
+    />
+
+    <meta
+      name="twitter:image:alt"
+      content="Gabes Machado, Software Engineer, with a terminal and generative ASCII artwork."
+    />
+
+    <!-- Global styles -->
+    <link rel="stylesheet" href="./styles/reset.css" />
+
+    <link rel="stylesheet" href="./styles/tokens.css" />
+
+    <link rel="stylesheet" href="./styles/global.css" />
+
+    <!-- Components -->
+    <link
+      rel="stylesheet"
+      href="./components/ascii-background/ascii-background.css"
+    />
+
+    <link rel="stylesheet" href="./components/terminal/terminal.css" />
+
+    <link
+      rel="stylesheet"
+      href="./components/about-section/about-section.css"
+    />
+
+    <link rel="stylesheet" href="./components/now-section/now-section.css" />
+
+    <link rel="stylesheet" href="./components/site-shell/site-shell.css" />
+
+    <script type="module" src="./scripts/main.js"></script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main-content"> Skip to main content </a>
+
+    <header class="site-header" data-site-header>
+      <div class="site-header__inner">
+        <a class="site-brand" href="#home" aria-label="Gabes Machado, home">
+          <span class="site-brand__mark" aria-hidden="true"> GM </span>
+
+          <span class="site-brand__name"> Gabes Machado </span>
+        </a>
+
+        <nav class="site-navigation" aria-label="Primary navigation">
+          <a
+            class="site-navigation__link"
+            href="#home"
+            data-section-link="home"
+            aria-current="location"
+          >
+            Home
+          </a>
+
+          <a
+            class="site-navigation__link"
+            href="#about"
+            data-section-link="about"
+          >
+            About
+          </a>
+
+          <a class="site-navigation__link" href="#now" data-section-link="now">
+            Now
+          </a>
+        </nav>
+
+        <button
+          class="site-header__terminal"
+          type="button"
+          data-terminal-trigger
+          aria-label="Open and focus the terminal"
+        >
+          <span aria-hidden="true"> &gt;_ </span>
+
+          <span class="site-header__terminal-label"> Terminal </span>
+        </button>
+      </div>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section
+        id="home"
+        class="hero"
+        aria-labelledby="hero-title"
+        tabindex="-1"
+      >
+        <canvas
+          class="ascii-background"
+          data-ascii-background
+          aria-hidden="true"
+        ></canvas>
+
+        <h1 id="hero-title" class="visually-hidden">
+          Gabes Machado — Software Engineer
+        </h1>
+
+        <div class="terminal">
+          <header class="terminal-title-bar">
+            <div class="terminal-window-controls" aria-hidden="true">
+              <span class="terminal-control"></span>
+              <span class="terminal-control"></span>
+              <span class="terminal-control"></span>
+            </div>
+
+            <p class="terminal-title">machado@portfolio: ~</p>
+          </header>
+
+          <div class="terminal-body">
+            <div
+              id="terminal-output"
+              class="terminal-output"
+              role="log"
+              aria-label="Terminal output"
+              aria-live="polite"
+              aria-relevant="additions text"
+            >
+              <div class="terminal-intro">
+                <p class="terminal-line">
+                  <span class="terminal-prompt" aria-hidden="true">
+                    visitor@portfolio:~$
+                  </span>
+
+                  whoami
+                </p>
+
+                <p class="terminal-identity">Gabes Machado</p>
+
+                <p class="terminal-role">Software Engineer</p>
+
+                <p class="terminal-hint">
+                  Type <code>help</code> to see the available commands.
+                </p>
+              </div>
+            </div>
+
+            <p id="terminal-instructions" class="visually-hidden">
+              Enter a command and press Enter to run it. Type help to list all
+              commands. Use Tab for autocomplete and the Up and Down arrow keys
+              to browse command history.
+            </p>
+
+            <form class="terminal-form" data-terminal-form autocomplete="off">
+              <label class="visually-hidden" for="terminal-input">
+                Enter a terminal command
+              </label>
+
+              <span class="terminal-prompt" aria-hidden="true">
+                visitor@portfolio:~$
+              </span>
+
+              <input
+                id="terminal-input"
+                class="terminal-input"
+                name="command"
+                type="text"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+                aria-controls="terminal-output"
+                aria-describedby="terminal-instructions"
+              />
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="about"
+        class="content-section about-section"
+        aria-labelledby="about-title"
+        tabindex="-1"
+      >
+        <div class="content-section__inner about-section__inner">
+          <header class="about-section__header">
+            <p class="content-section__eyebrow">01 / Profile</p>
+
+            <h2 id="about-title" class="content-section__title">About</h2>
+          </header>
+
+          <div class="about-section__layout">
+            <div class="about-section__copy">
+              <p class="about-section__lede">
+                I build resilient software for systems that cannot afford to
+                stop.
+              </p>
+
+              <div class="about-section__body">
+                <p>
+                  I am a software engineer working in banking and financial
+                  services, with a focus on high-availability architecture,
+                  secure delivery and data-informed decisions.
+                </p>
+
+                <p>
+                  My work sits at the intersection of backend engineering,
+                  DevOps, cybersecurity and financial systems. I care about
+                  reliability, clear interfaces and solutions shaped by real
+                  operational constraints.
+                </p>
+              </div>
+
+              <dl class="about-section__facts">
+                <div class="about-section__fact">
+                  <dt>Based in</dt>
+                  <dd>Brasília, Brazil</dd>
+                </div>
+
+                <div class="about-section__fact">
+                  <dt>Domain</dt>
+
+                  <dd>Banking &amp; financial services</dd>
+                </div>
+
+                <div class="about-section__fact">
+                  <dt>Focus</dt>
+
+                  <dd>Reliability, security and DevOps</dd>
+                </div>
+              </dl>
+            </div>
+
+            <figure class="about-portrait">
+              <div class="about-portrait__frame" data-about-portrait-frame>
+                <div class="about-portrait__status">
+                  <span>ASCII PORTRAIT</span>
+
+                  <span data-about-portrait-status> SOURCE IMAGES </span>
+                </div>
+
+                <img
+                  class="about-portrait__source about-portrait__source--primary"
+                  data-about-portrait-source="primary"
+                  src="./assets/images/about-portrait.webp"
+                  alt="Portrait of Gabes Machado"
+                  decoding="async"
+                  data-focus-x="0.5"
+                  data-focus-y="0.42"
+                />
+
+                <img
+                  class="about-portrait__source about-portrait__source--secondary"
+                  data-about-portrait-source="secondary"
+                  src="./assets/images/about-portrait-alt.webp"
+                  alt=""
+                  aria-hidden="true"
+                  decoding="async"
+                  data-focus-x="0.5"
+                  data-focus-y="0.42"
+                />
+
+                <pre
+                  class="about-portrait__placeholder"
+                  data-about-portrait-placeholder
+                  aria-hidden="true"
+                >
+        .:-=+*#%%#*+=-:.
+     .-+*##*+=----=+*##+-.
+   :=##*=-.          .-=*##=:
+  -##+:                  :+##-
+ =##-       [ 01 ]         -##=
+ +##.       ASCII          .##+
+ +##.      PORTRAIT        .##+
+ =##-      PROCESSING      -##=
+  -##+:                  :+##-
+   :=##*=-.          .-=*##=:
+     .-+*##*+=----=+*##+-.
+        .:-=+*#%%#*+=-:.
+                </pre>
+
+                <canvas
+                  class="about-portrait__canvas"
+                  data-about-portrait
+                  data-invert="false"
+                  aria-hidden="true"
+                ></canvas>
+              </div>
+
+              <figcaption class="about-portrait__caption">
+                <span>Portrait morphing system</span>
+
+                <span>ASCII particles / 01—02</span>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="now"
+        class="content-section now-section"
+        aria-labelledby="now-title"
+        tabindex="-1"
+      >
+        <div class="content-section__inner now-section__inner">
+          <header class="now-section__header">
+            <div class="now-section__heading">
+              <p class="content-section__eyebrow">02 / Current</p>
+
+              <h2 id="now-title" class="content-section__title">Now</h2>
+            </div>
+
+            <div class="now-section__introduction">
+              <p class="now-section__lede">
+                A living snapshot of what I am building, learning and exploring
+                right now.
+              </p>
+
+              <p class="now-section__updated">
+                Last updated
+
+                <time datetime="2026-07-16"> July 2026 </time>
+              </p>
+            </div>
+          </header>
+
+          <div class="now-section__list">
+            <article class="now-item now-item--featured">
+              <p class="now-item__index" aria-hidden="true">01</p>
+
+              <header class="now-item__heading">
+                <div class="now-item__meta">
+                  <span class="now-item__category"> Building </span>
+
+                  <span class="now-item__status">
+                    <span
+                      class="now-item__status-dot"
+                      aria-hidden="true"
+                    ></span>
+
+                    Active
+                  </span>
+                </div>
+
+                <h3 class="now-item__title">
+                  An interactive portfolio built around terminals and generative
+                  ASCII systems.
+                </h3>
+              </header>
+
+              <div class="now-item__details">
+                <p>
+                  Designing and implementing this website without frameworks,
+                  using native browser APIs, modular JavaScript, accessible HTML
+                  and procedural canvas rendering.
+                </p>
+
+                <ul class="now-item__tags" aria-label="Technologies">
+                  <li>HTML</li>
+                  <li>CSS</li>
+                  <li>JavaScript</li>
+                  <li>Canvas</li>
+                  <li>Genetic algorithms</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="now-item">
+              <p class="now-item__index" aria-hidden="true">02</p>
+
+              <header class="now-item__heading">
+                <div class="now-item__meta">
+                  <span class="now-item__category"> Working </span>
+
+                  <span class="now-item__status"> Ongoing </span>
+                </div>
+
+                <h3 class="now-item__title">
+                  Engineering reliable software for banking and financial
+                  systems.
+                </h3>
+              </header>
+
+              <div class="now-item__details">
+                <p>
+                  Working with systems where availability, security, operational
+                  clarity and controlled delivery are fundamental engineering
+                  requirements.
+                </p>
+
+                <ul class="now-item__tags" aria-label="Areas of focus">
+                  <li>Reliability</li>
+                  <li>DevOps</li>
+                  <li>Security</li>
+                  <li>Financial systems</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="now-item">
+              <p class="now-item__index" aria-hidden="true">03</p>
+
+              <header class="now-item__heading">
+                <div class="now-item__meta">
+                  <span class="now-item__category"> Learning </span>
+
+                  <span class="now-item__status"> In progress </span>
+                </div>
+
+                <h3 class="now-item__title">
+                  Going deeper into systems, language paradigms and software
+                  architecture.
+                </h3>
+              </header>
+
+              <div class="now-item__details">
+                <p>
+                  Studying lower-level execution models, object-oriented
+                  systems, mainframe computing and functional programming
+                  through C, Java, COBOL and Elixir.
+                </p>
+
+                <ul class="now-item__tags" aria-label="Subjects being studied">
+                  <li>C</li>
+                  <li>Java</li>
+                  <li>COBOL</li>
+                  <li>Elixir</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="now-item">
+              <p class="now-item__index" aria-hidden="true">04</p>
+
+              <header class="now-item__heading">
+                <div class="now-item__meta">
+                  <span class="now-item__category"> Exploring </span>
+
+                  <span class="now-item__status"> Research </span>
+                </div>
+
+                <h3 class="now-item__title">
+                  Spatial computing and new forms of human-computer interaction.
+                </h3>
+              </header>
+
+              <div class="now-item__details">
+                <p>
+                  Investigating how virtual and mixed reality can change
+                  workspaces, software interfaces and the way technical systems
+                  are visualized.
+                </p>
+
+                <ul class="now-item__tags" aria-label="Areas being explored">
+                  <li>VR</li>
+                  <li>XR</li>
+                  <li>Spatial interfaces</li>
+                  <li>Human-computer interaction</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <div class="site-footer__identity">
+          <p class="site-footer__brand">Gabes Machado</p>
+
+          <p class="site-footer__description">
+            Software Engineer building reliable, secure and resilient systems.
+          </p>
+        </div>
+
+        <nav class="site-footer__navigation" aria-label="Footer navigation">
+          <a href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#now">Now</a>
+        </nav>
+
+        <div class="site-footer__meta">
+          <p>Built with HTML, CSS and JavaScript.</p>
+
+          <p>
+            ©
+            <span data-current-year>2026</span>
+            Gabes Machado
+          </p>
+        </div>
+
+        <a class="site-footer__back-to-top" href="#home">
+          Back to top
+          <span aria-hidden="true">↑</span>
+        </a>
+      </div>
+    </footer>
   </body>
 </html>
