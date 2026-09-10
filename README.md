@@ -42,11 +42,20 @@ URL is available.
 
 ## Verification
 
-Run the dependency-free test suite with Node.js:
+The required Node.js major version is recorded in `.node-version`. Run the same dependency-free gates used by CI from the repository root:
 
 ```sh
 node --test tests/*.test.mjs
+git ls-files -z -- '*.js' '*.mjs' | xargs -0 -n 1 node --check
+node scripts/verify-site.mjs
 ```
+
+The site verifier checks that `sitemap.xml` contains exactly the three canonical public URLs and that supported references cannot escape the canonical site root and resolve to files (or HTML directory indexes). Its reference grammar covers:
+
+- HTML URL attributes, `srcset`, `archive`/`ping` URL lists, document fragments, and literal Open Graph/Twitter image `content` values.
+- CSS `url(...)` values and quoted `@import` paths.
+- JavaScript/MJS static imports, side-effect imports, and `export ... from` specifiers with quoted string literals, plus dynamic `import()` specifiers written as quoted strings or interpolation-free template literals. Bare and computed module specifiers are not resolved.
+- Literal path-relative and root-relative URLs, plus absolute or protocol-relative HTTP(S) URLs on the configured site origin. Query strings following a path are ignored during file lookup, fragments are checked in HTML targets, and other origins or schemes are treated as external.
 
 ## Deployment
 
