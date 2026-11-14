@@ -110,9 +110,9 @@ test("a rota da festa tem uma página em português com URL canônica própria",
   assert.match(html, /<table class="regras-tabela">/);
 });
 
-test("a ajuda tem um botão com ícone e nome acessível fora do letreiro", async () => {
+test("a cartela oferece ajuda antes das escolhas de palpite", async () => {
   const html = await readFile(new URL("../jogo-do-bicho/index.html", import.meta.url), "utf8");
-  assert.match(html, /<body>\s*<button class="ajuda" id="abrir-ajuda"[^>]*aria-label="Como jogar"[^>]*aria-controls="ajuda"[^>]*>\?<\/button>/);
+  assert.match(html, /<header class="secao-cabecalho">\s*<h2 id="titulo-palpite"[^>]*>Seu palpite<\/h2>\s*<button\b[^>]*id="abrir-ajuda"[^>]*aria-controls="ajuda">Como jogar<\/button>/);
   assert.doesNotMatch(html, /class="(?:topo|sobretitulo)"|Desde 1892/);
 });
 
