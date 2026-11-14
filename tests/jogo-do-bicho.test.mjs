@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { montarDadosExtrato } from "../jogo-do-bicho/extrato.mjs";
+import { urlDaGravura } from "../jogo-do-bicho/gravuras.mjs";
 import {
   BICHOS, bichoDaMilhar, conferirPalpite, explicarPalpite, extrairMilhares,
   numeroComZeros, palpiteValido,
@@ -20,6 +21,18 @@ test("a cartela cobre cada dezena exatamente uma vez, incluindo 00 na Vaca", () 
   }
   assert.equal(bichoDaMilhar("0088").nome, "Tigre");
   assert.equal(bichoDaMilhar("0000").nome, "Vaca");
+});
+
+test("cada grupo tem uma gravura WebP individual com transparência", async () => {
+  const urls = BICHOS.map(urlDaGravura);
+  assert.equal(new Set(urls.map((url) => url.href)).size, 25);
+
+  for (const url of urls) {
+    const arquivo = await readFile(url);
+    assert.equal(arquivo.toString("ascii", 0, 4), "RIFF");
+    assert.equal(arquivo.toString("ascii", 8, 16), "WEBPVP8X");
+    assert.ok(arquivo[20] & 0x10, `Gravura sem canal alfa: ${url.pathname}`);
+  }
 });
 
 test("o palpite conserva zeros iniciais e valida a modalidade", () => {

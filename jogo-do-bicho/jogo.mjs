@@ -3,6 +3,7 @@ import {
   descreverAcertos, descreverPalpite, explicarPalpite, extrairMilhares, numeroComZeros, palpiteValido,
 } from "./regras.mjs";
 import { criarExtrato } from "./extrato.mjs";
+import { urlDaGravura } from "./gravuras.mjs";
 
 const elementos = Object.fromEntries([
   "formulario", "bichos", "seletor-bichos", "seletor-numero", "numero",
@@ -30,12 +31,14 @@ function criarElemento(tag, classe, texto) {
   return elemento;
 }
 
-/** Usa o número tradicional de grupo para localizar a gravura na cartela. */
+/** Exibe a gravura individual. O nome do bicho já aparece junto à imagem. */
 function criarGravura(bicho) {
-  const gravura = criarElemento("span", "gravura");
-  const indice = bicho.grupo - 1;
-  gravura.setAttribute("aria-hidden", "true");
-  gravura.style.backgroundPosition = `${(indice % 5) * 25}% ${Math.floor(indice / 5) * 25}%`;
+  const gravura = criarElemento("img", "gravura");
+  gravura.alt = "";
+  gravura.width = 128;
+  gravura.height = 128;
+  gravura.decoding = "async";
+  gravura.src = urlDaGravura(bicho);
   return gravura;
 }
 

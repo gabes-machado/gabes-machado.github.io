@@ -262,10 +262,9 @@ legend, .campo-numero > label {
   display: block;
   width: 100%;
   max-width: 54px;
+  height: auto;
   aspect-ratio: 1;
-  background: url("./assets/bichos.webp") 0 0 / 500% 500% no-repeat;
-  filter: grayscale(1) contrast(1.7);
-  mix-blend-mode: multiply;
+  object-fit: contain;
 }
 
 .bicho-grupo {
