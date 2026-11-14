@@ -110,6 +110,12 @@ test("a rota da festa tem uma página em português com URL canônica própria",
   assert.match(html, /<table class="regras-tabela">/);
 });
 
+test("a ajuda tem um botão com ícone e nome acessível fora do letreiro", async () => {
+  const html = await readFile(new URL("../jogo-do-bicho/index.html", import.meta.url), "utf8");
+  assert.match(html, /<body>\s*<button class="ajuda" id="abrir-ajuda"[^>]*aria-label="Como jogar"[^>]*aria-controls="ajuda"[^>]*>\?<\/button>/);
+  assert.doesNotMatch(html, /class="(?:topo|sobretitulo)"|Desde 1892/);
+});
+
 test("o extrato inclui os cinco resultados e todos os bilhetes com seus acertos", () => {
   const milhares = ["0088", "0000", "4187", "1388", "9088"];
   const palpiteTigre = { modalidade: "grupo", valor: "22", alcance: "cercado" };
