@@ -128,6 +128,7 @@ test("o extrato inclui os cinco resultados e todos os bilhetes com seus acertos"
     detalhe: "Milhar · Na cabeça",
     situacao: "Sem acerto",
     acertou: false,
+    conferencia: "No 1º prêmio deu 0088. Seu palpite bateu fora da cabeça (2º), mas só o 1º conta.",
   });
   assert.deepEqual(dados.bilhetes.at(-1), {
     numero: "01",
@@ -135,5 +136,6 @@ test("o extrato inclui os cinco resultados e todos os bilhetes com seus acertos"
     detalhe: "Grupo · Do 1º ao 5º",
     situacao: "Acertou · 1º, 3º, 4º, 5º",
     acertou: true,
+    conferencia: "O final 88 da milhar 0088 é do Tigre.",
   });
 });
