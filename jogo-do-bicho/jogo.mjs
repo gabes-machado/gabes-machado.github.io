@@ -1,7 +1,8 @@
 import {
   ALGARISMOS, BICHOS, MODALIDADES, bichoDaMilhar, conferirPalpite,
-  extrairMilhares, numeroComZeros, palpiteValido,
+  descreverAcertos, descreverPalpite, extrairMilhares, numeroComZeros, palpiteValido,
 } from "./regras.mjs";
+import { criarExtrato } from "./extrato.mjs";
 
 const elementos = Object.fromEntries([
   "formulario", "bichos", "seletor-bichos", "seletor-numero", "numero",
@@ -9,6 +10,7 @@ const elementos = Object.fromEntries([
   "total-bilhetes", "sem-bilhetes", "bilhetes", "resultado", "premios",
   "resumo-resultado", "sortear", "nova-rodada", "mais-palpite", "status",
   "titulo-palpite", "titulo-rodada", "abrir-ajuda", "ajuda",
+  "acoes-extrato", "compartilhar-extrato", "baixar-extrato", "status-extrato",
 ].map((id) => [id, document.getElementById(id)]));
 
 const formulario = elementos.formulario;
@@ -18,6 +20,7 @@ const grupos = [];
 let numeroRodada = 1;
 let bilhetes = [];
 let milhares = null;
+let arquivoExtrato = null;
 
 /** Cria texto por meio do DOM, inclusive para os valores do bilhete. */
 function criarElemento(tag, classe, texto) {
@@ -108,23 +111,19 @@ function registrarPalpite(evento) {
 
 /** Monta a linha de cada bilhete e marca em quais posições ele acertou. */
 function montarBilhete(bilhete, indice) {
-  const { modalidade, valor, alcance } = bilhete;
-  const bicho = modalidade === "grupo" ? BICHOS[Number(valor) - 1] : null;
-  const texto = bicho ? `${bicho.nome} · ${valor}` : valor;
+  const { escolha, detalhe } = descreverPalpite(bilhete);
   const linha = criarElemento("li", "bilhete");
   const dados = criarElemento("div", "bilhete-dados");
   dados.append(
-    criarElemento("strong", "", texto),
-    criarElemento("small", "", `${MODALIDADES[modalidade]} · ${alcance === "cabeca" ? "Na cabeça" : "Do 1º ao 5º"}`),
+    criarElemento("strong", "", escolha),
+    criarElemento("small", "", detalhe),
   );
   linha.append(criarElemento("span", "bilhete-numero", numeroComZeros(indice + 1)), dados);
 
   if (milhares) {
     const acertos = conferirPalpite(bilhete, milhares);
     linha.classList.toggle("acertou", acertos.length > 0);
-    linha.append(criarElemento("span", "bilhete-situacao", acertos.length
-      ? `Acertou · ${acertos.map((posicao) => `${posicao}º`).join(", ")}`
-      : "Sem acerto"));
+    linha.append(criarElemento("span", "bilhete-situacao", descreverAcertos(acertos)));
   }
 
   return linha;
@@ -174,6 +173,53 @@ function fazerExtracao() {
   atualizarRodada();
   elementos["titulo-rodada"].focus();
   elementos.status.textContent = elementos["resumo-resultado"].textContent;
+  prepararExtrato();
+}
+
+/** Prepara o arquivo antes do toque para preservar a ativação exigida por navigator.share. */
+async function prepararExtrato() {
+  const rodada = numeroRodada;
+  const acoes = elementos["acoes-extrato"];
+  const compartilhar = elementos["compartilhar-extrato"];
+  const baixar = elementos["baixar-extrato"];
+  const status = elementos["status-extrato"];
+  acoes.hidden = false;
+  compartilhar.hidden = true;
+  status.textContent = "Gerando imagem do extrato…";
+
+  try {
+    const arquivo = await criarExtrato(rodada, milhares, bilhetes, elementos["resumo-resultado"].textContent);
+    if (rodada !== numeroRodada) return;
+
+    arquivoExtrato = arquivo;
+    const podeCompartilhar = typeof navigator.share === "function" && navigator.canShare?.({ files: [arquivo] });
+    baixar.href = URL.createObjectURL(arquivo);
+    baixar.download = arquivo.name;
+    baixar.textContent = podeCompartilhar ? "Baixar PNG" : "Baixar PNG para enviar no WhatsApp";
+    baixar.hidden = false;
+    compartilhar.hidden = !podeCompartilhar;
+    compartilhar.disabled = !podeCompartilhar;
+    status.textContent = "";
+  } catch (erro) {
+    console.error("Falha ao gerar a imagem do extrato:", erro);
+    if (rodada === numeroRodada) status.textContent = "Não foi possível gerar a imagem do extrato.";
+  }
+}
+
+/** Entrega o PNG ao menu do aparelho. O convidado escolhe o app e o grupo. */
+async function compartilharExtrato() {
+  if (!arquivoExtrato) return;
+  const rodada = numeroRodada;
+  const status = elementos["status-extrato"];
+  status.textContent = "";
+  try {
+    await navigator.share({ files: [arquivoExtrato] });
+  } catch (erro) {
+    if (erro.name !== "AbortError" && rodada === numeroRodada) {
+      console.error("Falha ao abrir o compartilhamento:", erro);
+      status.textContent = "Use Baixar PNG e anexe a imagem no WhatsApp.";
+    }
+  }
 }
 
 /** Abre uma rodada vazia e devolve o foco à cartela. */
@@ -181,6 +227,12 @@ function abrirRodada() {
   numeroRodada += 1;
   bilhetes = [];
   milhares = null;
+  const baixar = elementos["baixar-extrato"];
+  if (baixar.hasAttribute("href")) URL.revokeObjectURL(baixar.href);
+  baixar.removeAttribute("href");
+  baixar.hidden = true;
+  arquivoExtrato = null;
+  elementos["acoes-extrato"].hidden = true;
   formulario.reset();
   atualizarCartela();
   atualizarRodada();
@@ -209,5 +261,6 @@ formulario.addEventListener("submit", registrarPalpite);
 elementos.numero.addEventListener("input", digitarPalpite);
 elementos.sortear.addEventListener("click", fazerExtracao);
 elementos["nova-rodada"].addEventListener("click", abrirRodada);
+elementos["compartilhar-extrato"].addEventListener("click", compartilharExtrato);
 elementos["mais-palpite"].addEventListener("click", () => elementos["titulo-palpite"].focus());
 elementos["abrir-ajuda"].addEventListener("click", () => elementos.ajuda.showModal());

@@ -60,18 +60,8 @@ button:disabled { cursor: default; }
   min-height: 68px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: flex-end;
 }
-
-.marca {
-  font: 800 1.27rem/1 var(--titulo);
-  letter-spacing: .045em;
-  text-transform: uppercase;
-  text-decoration: none;
-}
-
-.marca span { color: var(--ouro); margin-right: .27em; }
 
 .ajuda {
   display: flex;
@@ -105,7 +95,7 @@ button:disabled { cursor: default; }
   min-height: 310px;
   overflow: hidden;
   border: 1px solid #ba814f;
-  border-radius: 7px 7px 0 0;
+  border-radius: 7px;
   box-shadow: 0 14px 36px #160d08a0;
   background:
     linear-gradient(90deg, #39110eee, #54150a00 68%),
@@ -152,19 +142,6 @@ h1 em { color: var(--ouro); font-style: normal; }
   color: #f5dfb5;
   font: 800 clamp(1rem, 2.3vw, 1.65rem)/1.2 var(--titulo);
   letter-spacing: .075em;
-  text-transform: uppercase;
-}
-
-.faixa {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 6px 14px;
-  padding: 10px clamp(12px, 3vw, 24px);
-  background: #dca657;
-  color: #311b12;
-  font: 700 .73rem/1.4 var(--mono);
-  letter-spacing: .045em;
   text-transform: uppercase;
 }
 
@@ -466,6 +443,20 @@ legend, .campo-numero > label {
 
 .acoes-rodada { display: grid; gap: 6px; margin-top: 9px; }
 
+.acoes-extrato { display: grid; margin-bottom: 5px; }
+.botao-compartilhar { color: #fff2d7; background: #295742; }
+.botao-compartilhar:disabled { color: #ddd0ba; background: #3f4031; }
+
+.acoes-extrato a {
+  display: grid;
+  min-height: 44px;
+  place-items: center;
+  justify-self: center;
+  padding-inline: 10px;
+  font-size: .84rem;
+  text-underline-offset: 3px;
+}
+
 .mais-palpite {
   min-height: 44px;
   border: 0;
@@ -531,7 +522,6 @@ dialog li, dialog p { font-size: .9rem; }
   h1 { max-width: min-content; font-size: clamp(3rem, 12vw, 4.5rem); }
   .sobretitulo { font-size: .58rem; letter-spacing: .115em; }
   .edicao { font-size: .95rem; letter-spacing: .035em; }
-  .faixa { font-size: .58rem; letter-spacing: 0; }
   .bancada { grid-template-columns: 1fr; gap: 14px; margin-top: 14px; }
   .maquininha { position: static; }
   .gravura { max-width: 50px; }

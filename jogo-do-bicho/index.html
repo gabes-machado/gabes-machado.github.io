@@ -15,7 +15,6 @@
   <body>
     <div class="pagina">
       <header class="topo">
-        <a class="marca" href="./"><span aria-hidden="true">✦</span> Banca da Esquina</a>
         <button class="ajuda" id="abrir-ajuda" type="button" aria-haspopup="dialog">Como jogar <span aria-hidden="true">?</span></button>
       </header>
 
@@ -26,10 +25,6 @@
             <h1>Jogo do <em>Bicho</em></h1>
             <p class="edicao">Edição Fubangas &amp; Bicheiros</p>
           </div>
-        </div>
-        <div class="faixa">
-          <span><span aria-hidden="true">✦</span> Vale o que tá escrito</span>
-          <span>Simulação <span aria-hidden="true">·</span> Sem dinheiro real</span>
         </div>
 
         <noscript>Ative o JavaScript para usar a maquininha.</noscript>
@@ -103,6 +98,11 @@
 
             <div class="acoes-rodada">
               <button class="botao botao-dourado" type="button" id="sortear" disabled>Fazer extração <span aria-hidden="true">↗</span></button>
+              <div class="acoes-extrato" id="acoes-extrato" hidden>
+                <button class="botao botao-compartilhar" type="button" id="compartilhar-extrato" disabled>Compartilhar no WhatsApp <span aria-hidden="true">↗</span></button>
+                <a id="baixar-extrato" hidden>Baixar PNG</a>
+                <p class="status" id="status-extrato" role="status"></p>
+              </div>
               <button class="botao botao-dourado" type="button" id="nova-rodada" hidden>Nova rodada <span aria-hidden="true">→</span></button>
               <button class="mais-palpite" type="button" id="mais-palpite" hidden>+ Registrar outro palpite</button>
             </div>

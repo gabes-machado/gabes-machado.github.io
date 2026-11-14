@@ -27,6 +27,15 @@ export const BICHOS = NOMES.map((nome, indice) => {
   return { nome, grupo, dezenas };
 });
 
+/** Usa os mesmos rótulos na tela e na imagem do extrato. */
+export function descreverPalpite({ modalidade, valor, alcance }) {
+  const bicho = modalidade === "grupo" ? BICHOS[Number(valor) - 1] : null;
+  return {
+    escolha: bicho ? `${bicho.nome} · ${valor}` : valor,
+    detalhe: `${MODALIDADES[modalidade]} · ${alcance === "cabeca" ? "Na cabeça" : "Do 1º ao 5º"}`,
+  };
+}
+
 /** Identifica o bicho pela dezena final e reserva o 00 para a Vaca. */
 export function bichoDaMilhar(milhar) {
   const dezena = Number(milhar.slice(-2)) || 100;
@@ -58,4 +67,11 @@ export function conferirPalpite(bilhete, milhares) {
       : milhar.slice(-ALGARISMOS[bilhete.modalidade]);
     return valorSorteado === bilhete.valor ? [indice + 1] : [];
   });
+}
+
+/** Exibe as posições exatas que cada bilhete acertou. */
+export function descreverAcertos(acertos) {
+  return acertos.length
+    ? `Acertou · ${acertos.map((posicao) => `${posicao}º`).join(", ")}`
+    : "Sem acerto";
 }
