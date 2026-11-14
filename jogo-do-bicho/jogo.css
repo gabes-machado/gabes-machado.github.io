@@ -1,0 +1,553 @@
+@font-face {
+  font-family: "Barlow Condensed";
+  src: url("./assets/barlow-condensed-800.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("./assets/dm-sans.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: dark;
+  --fundo: #261b16;
+  --papel: #f4e5c6;
+  --tinta: #281a15;
+  --suave: #715442;
+  --vinho: #782920;
+  --ouro: #f3bd60;
+  --linha: #cdb996;
+  --titulo: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --mono: ui-monospace, "Courier New", monospace;
+  font-family: "DM Sans", system-ui, sans-serif;
+  color: var(--papel);
+  background: var(--fundo);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 15% 20%, #443023 0%, transparent 52%),
+    radial-gradient(ellipse at 95% 45%, #392318 0%, transparent 52%),
+    var(--fundo);
+}
+
+h1, h2, h3, p { margin: 0; }
+a { color: inherit; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: default; }
+:focus-visible { outline: 2px solid #277067; outline-offset: 3px; }
+.topo :focus-visible, .maquininha :focus-visible, .rodape :focus-visible {
+  outline-color: var(--ouro);
+}
+
+.pagina {
+  width: min(1120px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+.topo {
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.marca {
+  font: 800 1.27rem/1 var(--titulo);
+  letter-spacing: .045em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.marca span { color: var(--ouro); margin-right: .27em; }
+
+.ajuda {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border: 1px solid #a0784e;
+  border-radius: 4px;
+  color: var(--papel);
+  background: transparent;
+  font-size: .84rem;
+  white-space: nowrap;
+}
+
+.ajuda span {
+  display: grid;
+  place-items: center;
+  width: 1.16rem;
+  height: 1.16rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  color: var(--ouro);
+  font: 700 .72rem/1 var(--mono);
+}
+
+.letreiro {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 310px;
+  overflow: hidden;
+  border: 1px solid #ba814f;
+  border-radius: 7px 7px 0 0;
+  box-shadow: 0 14px 36px #160d08a0;
+  background:
+    linear-gradient(90deg, #39110eee, #54150a00 68%),
+    url("./assets/rio-tigre.webp") right 24% / 100% auto no-repeat,
+    #501610;
+}
+
+.letreiro::after {
+  position: absolute;
+  inset: 9px;
+  border: 1px solid #e9b0616b;
+  border-radius: 3px;
+  content: "";
+  pointer-events: none;
+}
+
+.letreiro-texto {
+  position: relative;
+  z-index: 1;
+  padding: 24px 0 28px clamp(24px, 6vw, 76px);
+  text-shadow: 1px 2px 0 #42160f;
+}
+
+.sobretitulo {
+  color: #f9c97b;
+  font: 700 .75rem/1.4 var(--mono);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.sobretitulo span { margin-inline: .4em; font-size: .68em; }
+
+h1 {
+  margin: 5px 0 10px;
+  color: #fff0cd;
+  font: 800 clamp(4.1rem, 9vw, 8rem)/.93 var(--titulo);
+  letter-spacing: -.025em;
+  text-transform: uppercase;
+}
+
+h1 em { color: var(--ouro); font-style: normal; }
+
+.edicao {
+  color: #f5dfb5;
+  font: 800 clamp(1rem, 2.3vw, 1.65rem)/1.2 var(--titulo);
+  letter-spacing: .075em;
+  text-transform: uppercase;
+}
+
+.faixa {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px 14px;
+  padding: 10px clamp(12px, 3vw, 24px);
+  background: #dca657;
+  color: #311b12;
+  font: 700 .73rem/1.4 var(--mono);
+  letter-spacing: .045em;
+  text-transform: uppercase;
+}
+
+.bancada {
+  display: grid;
+  grid-template-columns: minmax(0, 1.53fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.cartela {
+  min-width: 0;
+  border: 1px solid #e2c79c;
+  border-top: 4px solid #cf9b54;
+  border-radius: 6px;
+  padding: clamp(14px, 2.6vw, 28px);
+  color-scheme: light;
+  color: var(--tinta);
+  background: radial-gradient(ellipse at top right, #ffecc8, var(--papel) 68%);
+  box-shadow: 0 10px 28px #180f0a8c;
+}
+
+h2 { font: 800 2.15rem/.98 var(--titulo); text-transform: uppercase; }
+.secao-cabecalho p { margin-top: 6px; color: var(--suave); font-size: .92rem; }
+
+fieldset {
+  min-inline-size: 0;
+  margin: 17px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+legend, .campo-numero > label {
+  padding: 0;
+  margin-bottom: 6px;
+  font-size: .83rem;
+  font-weight: 700;
+}
+
+.segmentos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--linha);
+  border-radius: 6px;
+  background: #e8d6b3;
+}
+
+.segmentos label, .bicho {
+  position: relative;
+  display: grid;
+  cursor: pointer;
+  user-select: none;
+}
+
+.segmentos label {
+  min-height: 44px;
+  place-content: center;
+  justify-items: center;
+  padding: 4px 1px;
+  border-radius: 3px;
+  font-size: clamp(.77rem, 1.9vw, .9rem);
+  font-weight: 700;
+}
+
+.segmentos label:has(:checked) { color: #fff0d3; background: var(--vinho); }
+.segmentos label:has(:focus-visible), .bicho:has(:focus-visible) {
+  outline: 2px solid #277067;
+  outline-offset: 2px;
+  z-index: 1;
+}
+
+.segmentos input, .bicho input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+}
+
+.alcance { grid-template-columns: 1fr 1fr; }
+.alcance label small { font-size: .69rem; font-weight: 400; }
+
+.bichos {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.bicho {
+  min-width: 0;
+  align-content: start;
+  justify-items: center;
+  padding: 5px 1px 5px;
+  border: 1px solid #cfb587;
+  border-radius: 4px;
+  color: #3e2216;
+  background: #fbebcd;
+}
+
+.bicho:has(:checked) {
+  border-color: var(--vinho);
+  box-shadow: inset 0 0 0 2px var(--vinho);
+  background: #efd19c;
+}
+
+.segmentos label:has(:disabled), .bicho:has(:disabled) { cursor: default; }
+
+@media (hover: hover) {
+  .bicho:hover:not(:has(:disabled)), .segmentos label:hover:not(:has(:checked, :disabled)) {
+    background-color: #f2d8a8;
+  }
+}
+
+.gravura {
+  display: block;
+  width: 100%;
+  max-width: 54px;
+  aspect-ratio: 1;
+  background: url("./assets/bichos.webp") 0 0 / 500% 500% no-repeat;
+  filter: grayscale(1) contrast(1.7);
+  mix-blend-mode: multiply;
+}
+
+.bicho-grupo {
+  color: var(--vinho);
+  font: 700 .65rem/1 var(--mono);
+}
+
+.bicho-nome {
+  font: 800 clamp(.76rem, 2.4vw, 1.04rem)/1 var(--titulo);
+  text-transform: uppercase;
+}
+
+.bicho-dezenas {
+  margin-top: 4px;
+  color: var(--suave);
+  font: 600 clamp(.46rem, 1.47vw, .68rem)/1.1 var(--mono);
+  white-space: nowrap;
+}
+
+.campo-numero { display: grid; margin-top: 17px; }
+
+.campo-numero input {
+  width: 100%;
+  max-width: 10rem;
+  padding: .28em .35em;
+  border: 1px solid #98794e;
+  border-radius: 4px;
+  color: var(--tinta);
+  background: #fff6df;
+  font: 700 1.85rem/1.2 var(--mono);
+  letter-spacing: .1em;
+}
+
+.campo-numero .dica { margin-top: 6px; }
+.dica { color: var(--suave); font-size: .79rem; }
+
+.acoes-cartela {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.botao {
+  display: flex;
+  min-height: 48px;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 14px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font: 800 1.24rem/1 var(--titulo);
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+.botao span { font-family: var(--mono); }
+.botao-vermelho { color: #fff0d3; background: var(--vinho); }
+.botao-vermelho:disabled { color: #715446; background: #e6d3b2; border-color: var(--linha); }
+.botao-dourado { color: #2b1a10; background: var(--ouro); }
+.botao-dourado:disabled { color: #d9bd9e; background: #503b2d; border-color: #6f5138; }
+
+.maquininha {
+  position: sticky;
+  top: 16px;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid #8a6242;
+  border-radius: 9px;
+  background: #2e221b;
+  box-shadow: inset 0 0 0 4px #453122, 0 10px 28px #180f0a8c;
+}
+
+.maquininha-topo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 13px;
+  padding: 5px 3px;
+}
+
+.maquininha-topo h2 { font-size: clamp(1.17rem, 3.4vw, 1.67rem); letter-spacing: .035em; }
+
+.led {
+  flex: 0 0 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #b9db9f;
+  box-shadow: 0 0 8px #aff69980;
+}
+
+.rodada-numero {
+  margin-left: auto;
+  color: var(--ouro);
+  font: 700 .82rem/1 var(--mono);
+  letter-spacing: .12em;
+}
+
+.papel {
+  padding: 16px 13px 19px;
+  color: var(--tinta);
+  background:
+    repeating-linear-gradient(0deg, #a36e2010 0 1px, transparent 1px 6px),
+    #fff1d2;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 5px), 0 calc(100% - 5px));
+  position: relative;
+}
+
+.papel::after {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 9px;
+  content: "";
+  background:
+    linear-gradient(135deg, transparent 50%, #2e221b 50%) 0 0 / 12px 10px,
+    linear-gradient(225deg, transparent 50%, #2e221b 50%) 0 0 / 12px 10px;
+}
+
+.bilhetes-topo {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  border-bottom: 1px dashed #ac916f;
+  padding-bottom: 8px;
+  font: 700 clamp(.63rem, 2.1vw, .73rem)/1.4 var(--mono);
+  text-transform: uppercase;
+}
+
+.vazio {
+  padding: 28px 0 25px;
+  color: var(--suave);
+  text-align: center;
+}
+
+.vazio span { color: var(--vinho); font-size: 2rem; }
+.vazio p { font-weight: 700; }
+.vazio small { font-size: .79rem; }
+
+.bilhetes, .premios { list-style: none; margin: 0; padding: 0; }
+.bilhetes { max-height: 19rem; overflow: auto; overscroll-behavior: contain; }
+
+.bilhete, .premio {
+  display: grid;
+  align-items: center;
+  gap: 7px;
+  border-bottom: 1px dashed #ac916f;
+  padding: 7px 0;
+}
+
+.bilhete { grid-template-columns: auto minmax(0, 1fr) auto; }
+.bilhete:last-child { border-bottom: 0; padding-bottom: 0; }
+
+.bilhete-numero, .premio-posicao, .premio-grupo {
+  font: 700 .72rem/1 var(--mono);
+  color: var(--suave);
+}
+
+.bilhete-dados { display: grid; gap: 2px; }
+.bilhete-dados strong { font-size: .92rem; }
+.bilhete-dados small { color: var(--suave); font-size: .72rem; }
+.bilhete-situacao { color: var(--suave); font-size: .71rem; text-align: right; }
+.bilhete.acertou .bilhete-situacao { color: #21533d; font-weight: 700; }
+
+.resultado-topo h3 { color: var(--vinho); font: 800 2.05rem/.95 var(--titulo); text-transform: uppercase; }
+.resultado-topo p { color: var(--suave); margin-top: 5px; font-size: .81rem; }
+.premios { margin: 6px 0 14px; }
+.premio { grid-template-columns: 1.3rem 3.4rem 24px minmax(0, 1fr) auto; }
+.premio:first-child .milhar { color: var(--vinho); }
+.milhar { font: 700 1.14rem/1.1 var(--mono); }
+.premio-bicho { font-size: .84rem; font-weight: 700; }
+
+.acoes-rodada { display: grid; gap: 6px; margin-top: 9px; }
+
+.mais-palpite {
+  min-height: 44px;
+  border: 0;
+  color: var(--papel);
+  background: transparent;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-size: .84rem;
+}
+
+.status:not(:empty) { margin-top: 7px; color: #e9d2b2; font-size: .79rem; }
+noscript { display: block; padding: 12px 0; }
+
+.rodape {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 9px 14px;
+  padding: 22px 0 max(24px, env(safe-area-inset-bottom));
+  color: #e3cbaa;
+  font-size: .8rem;
+}
+
+.rodape a, .fontes a { text-underline-offset: 3px; }
+
+dialog {
+  width: min(480px, calc(100% - 24px));
+  max-height: calc(100% - 24px);
+  padding: 20px;
+  border: 2px solid #b57c42;
+  border-radius: 7px;
+  color: var(--tinta);
+  background: var(--papel);
+}
+
+dialog::backdrop { background: #190e0be0; }
+.ajuda-topo { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+
+.fechar {
+  width: 44px;
+  height: 44px;
+  border: 1px solid #9f7350;
+  border-radius: 4px;
+  color: var(--vinho);
+  background: transparent;
+  font-size: 1.5rem;
+}
+
+dialog ol { display: grid; gap: 9px; padding-left: 1.4em; }
+dialog li, dialog p { font-size: .9rem; }
+.fontes { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 12px; color: var(--vinho); }
+
+@media (max-width: 760px) {
+  .pagina { width: min(540px, calc(100% - 24px)); }
+  .topo { min-height: 58px; }
+  .letreiro {
+    min-height: 218px;
+    background:
+      linear-gradient(90deg, #37100de8 5%, #4c140b96 55%, transparent 78%),
+      url("./assets/rio-tigre.webp") right 36% / auto 125% no-repeat,
+      #501610;
+  }
+  h1 { max-width: min-content; font-size: clamp(3rem, 12vw, 4.5rem); }
+  .sobretitulo { font-size: .58rem; letter-spacing: .115em; }
+  .edicao { font-size: .95rem; letter-spacing: .035em; }
+  .faixa { font-size: .58rem; letter-spacing: 0; }
+  .bancada { grid-template-columns: 1fr; gap: 14px; margin-top: 14px; }
+  .maquininha { position: static; }
+  .gravura { max-width: 50px; }
+  .acoes-cartela {
+    position: sticky;
+    z-index: 2;
+    bottom: 0;
+    padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+    background: var(--papel);
+    box-shadow: 0 -7px 10px var(--papel);
+  }
+}
+
+@media (max-width: 365px) {
+  .cartela { padding-inline: 10px; }
+  .bichos { gap: 3px; }
+  .bicho-nome { font-size: .7rem; }
+  .bicho-dezenas { font-size: .45rem; }
+}

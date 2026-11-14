@@ -17,6 +17,9 @@ The public routes are:
 - `/` — portfolio home
 - `/talks/` — talk videos, transcripts and slides
 - `/links/` — profile and contact links
+- `/jogo-do-bicho/` — Portuguese-language party game with virtual tickets and a local draw
+
+Open the game by its direct URL. It runs entirely in the browser. Start a new round to clear its tickets, or reload to start a new session.
 
 ## Updating page content
 
