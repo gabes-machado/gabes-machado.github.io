@@ -122,16 +122,46 @@
         <h2 id="titulo-ajuda">Como jogar</h2>
         <form method="dialog"><button class="fechar" aria-label="Fechar instruções" autofocus>×</button></form>
       </div>
-      <ol>
-        <li><strong>Escolha um palpite.</strong> Em Grupo, toque num dos 25 bichos. Em Dezena, Centena e Milhar, digite 2, 3 ou 4 algarismos.</li>
-        <li><strong>Escolha onde vale.</strong> Na cabeça só conta o 1º prêmio. Do 1º ao 5º, vale qualquer uma das cinco posições.</li>
-        <li><strong>Registre os bilhetes e faça a extração.</strong> Todo mundo na mesma rodada concorre ao mesmo sorteio. A maquininha confere os acertos.</li>
-      </ol>
-      <p>Exemplo: se sair <strong>0088</strong>, a dezena é <strong>88</strong>, a centena é <strong>088</strong> e o bicho é <strong>Tigre</strong>, porque 88 pertence ao grupo 22.</p>
-      <p class="fontes">
-        <a href="https://www.gov.br/fazenda/pt-br/composicao/orgaos/secretaria-de-premios-e-apostas/arquivos/arquivos-pdf/sei_46908324_nota_tecnica_3826-1.pdf">Tabela tradicional</a>
-        <a href="https://revistaagcrj.rio.br/index.php/ojs/article/view/6">História no Rio</a>
-      </p>
+      <div class="ajuda-conteudo" tabindex="0" role="region" aria-label="Regras da rodada">
+        <section aria-labelledby="regras-rodada">
+          <h3 id="regras-rodada">Como funciona a rodada</h3>
+          <p>Registre um bilhete para cada palpite. Quando todos estiverem prontos, toque em <strong>Fazer extração</strong>. A maquininha sorteia cinco números de quatro algarismos, do 1º ao 5º prêmio. Todos os bilhetes da rodada são conferidos com esse mesmo resultado.</p>
+        </section>
+
+        <section aria-labelledby="regras-modalidades">
+          <h3 id="regras-modalidades">O que precisa bater?</h3>
+          <table class="regras-tabela">
+            <caption>Se o número sorteado for <strong>0088</strong></caption>
+            <thead><tr><th scope="col">Modalidade</th><th scope="col">O que conferir</th><th scope="col">Acerta com</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Grupo</th><td>O bicho da dezena final</td><td><strong>Tigre</strong></td></tr>
+              <tr><th scope="row">Dezena</th><td>Os 2 últimos algarismos</td><td><strong>88</strong></td></tr>
+              <tr><th scope="row">Centena</th><td>Os 3 últimos algarismos</td><td><strong>088</strong></td></tr>
+              <tr><th scope="row">Milhar</th><td>Os 4 algarismos na ordem</td><td><strong>0088</strong></td></tr>
+            </tbody>
+          </table>
+          <p>Cada bicho tem quatro dezenas na cartela. O Tigre, grupo 22, cobre 85, 86, 87 e 88. Se sair 0088, quem jogou <strong>Tigre em Grupo</strong> acerta, ao passo que quem jogou <strong>87 em Dezena</strong> erra. O final <strong>00</strong> é da Vaca. Guarde os zeros à esquerda em palpites como 088 e 0088.</p>
+        </section>
+
+        <section aria-labelledby="regras-posicoes">
+          <h3 id="regras-posicoes">Em quais posições vale?</h3>
+          <ul>
+            <li><strong>Na cabeça.</strong> Confira somente o 1º prêmio.</li>
+            <li><strong>Do 1º ao 5º.</strong> Basta acertar em qualquer uma das cinco posições. O mesmo bilhete pode acertar em mais de uma.</li>
+          </ul>
+        </section>
+
+        <section class="regras-exemplo" aria-labelledby="regras-zebra">
+          <h3 id="regras-zebra">Por que ninguém ganhou?</h3>
+          <p>É possível que nenhum palpite bata nas posições que valem para o seu bilhete. Imagine que saiu <strong>3152 (Galo) em 1º</strong> e <strong>0088 (Tigre) em 2º</strong>. Se todo mundo jogou Tigre <strong>Na cabeça</strong>, ninguém acerta, porque só o 1º prêmio conta. O bilhete de Tigre <strong>Do 1º ao 5º</strong> acertaria no 2º.</p>
+          <p>Na maquininha, abaixo de cada bilhete, dá para ver o que foi conferido e por que ele acertou ou errou.</p>
+        </section>
+
+        <p class="fontes">
+          <a href="https://www.gov.br/fazenda/pt-br/composicao/orgaos/secretaria-de-premios-e-apostas/arquivos/arquivos-pdf/sei_46908324_nota_tecnica_3826-1.pdf">Tabela tradicional</a>
+          <a href="https://revistaagcrj.rio.br/index.php/ojs/article/view/6">História no Rio</a>
+        </p>
+      </div>
     </dialog>
   </body>
 </html>

@@ -19,7 +19,7 @@ The public routes are:
 - `/links/` — profile and contact links
 - `/jogo-do-bicho/` — Portuguese-language party game with virtual tickets and a local draw
 
-Open the game by its direct URL. It runs entirely in the browser. After the draw, share the receipt PNG from the device's share menu or download it to attach manually. Start a new round to clear its tickets, or reload to start a new session.
+Open the game by its direct URL. It runs entirely in the browser. The in-game guide explains the four modes and which results count. After the draw, each ticket shows how it was checked. Share the receipt PNG from the device's share menu or download it to attach manually. Start a new round to clear its tickets, or reload to start a new session.
 
 ## Updating page content
 

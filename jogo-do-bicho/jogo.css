@@ -432,6 +432,7 @@ legend, .campo-numero > label {
 .bilhete-dados small { color: var(--suave); font-size: .72rem; }
 .bilhete-situacao { color: var(--suave); font-size: .71rem; text-align: right; }
 .bilhete.acertou .bilhete-situacao { color: #21533d; font-weight: 700; }
+.bilhete-conferencia { grid-column: 2 / -1; color: var(--suave); font-size: .78rem; line-height: 1.4; }
 
 .resultado-topo h3 { color: var(--vinho); font: 800 2.05rem/.95 var(--titulo); text-transform: uppercase; }
 .resultado-topo p { color: var(--suave); margin-top: 5px; font-size: .81rem; }
@@ -485,15 +486,58 @@ noscript { display: block; padding: 12px 0; }
 dialog {
   width: min(480px, calc(100% - 24px));
   max-height: calc(100% - 24px);
-  padding: 20px;
+  padding: 0;
   border: 2px solid #b57c42;
   border-radius: 7px;
+  color-scheme: light;
   color: var(--tinta);
   background: var(--papel);
 }
 
+#ajuda[open] { display: grid; grid-template-rows: auto minmax(0, 1fr); }
 dialog::backdrop { background: #190e0be0; }
-.ajuda-topo { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.ajuda-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--linha);
+}
+
+.ajuda-conteudo {
+  display: grid;
+  gap: 17px;
+  padding: 15px 16px 18px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  font-size: .88rem;
+  line-height: 1.45;
+}
+
+.ajuda-conteudo:focus-visible { outline-offset: -3px; }
+
+.ajuda-conteudo h3 {
+  margin-bottom: 6px;
+  color: var(--vinho);
+  font: 800 1.3rem/1.1 var(--titulo);
+  text-transform: uppercase;
+}
+
+.ajuda-conteudo p + p { margin-top: 8px; }
+.ajuda-conteudo ul { display: grid; gap: 5px; margin: 0; padding-left: 1.3em; }
+.regras-tabela { width: 100%; margin-bottom: 8px; border-collapse: collapse; font-size: .81rem; }
+
+.regras-tabela caption {
+  padding: 0 0 6px;
+  color: var(--suave);
+  text-align: left;
+}
+
+.regras-tabela th, .regras-tabela td { padding: 5px 6px; border-bottom: 1px solid var(--linha); text-align: left; }
+.regras-tabela thead { background: #e8d6b3; }
+.regras-tabela td:last-child { font-family: var(--mono); }
+.regras-exemplo { padding: 10px 12px; border-left: 3px solid var(--vinho); background: #ffefcf; }
 
 .fechar {
   width: 44px;
@@ -505,9 +549,7 @@ dialog::backdrop { background: #190e0be0; }
   font-size: 1.5rem;
 }
 
-dialog ol { display: grid; gap: 9px; padding-left: 1.4em; }
-dialog li, dialog p { font-size: .9rem; }
-.fontes { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 12px; color: var(--vinho); }
+.fontes { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--vinho); }
 
 @media (max-width: 760px) {
   .pagina { width: min(540px, calc(100% - 24px)); }

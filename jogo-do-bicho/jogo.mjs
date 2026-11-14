@@ -1,6 +1,6 @@
 import {
   ALGARISMOS, BICHOS, MODALIDADES, bichoDaMilhar, conferirPalpite,
-  descreverAcertos, descreverPalpite, extrairMilhares, numeroComZeros, palpiteValido,
+  descreverAcertos, descreverPalpite, explicarPalpite, extrairMilhares, numeroComZeros, palpiteValido,
 } from "./regras.mjs";
 import { criarExtrato } from "./extrato.mjs";
 
@@ -124,6 +124,7 @@ function montarBilhete(bilhete, indice) {
     const acertos = conferirPalpite(bilhete, milhares);
     linha.classList.toggle("acertou", acertos.length > 0);
     linha.append(criarElemento("span", "bilhete-situacao", descreverAcertos(acertos)));
+    linha.append(criarElemento("p", "bilhete-conferencia", explicarPalpite(bilhete, milhares, acertos)));
   }
 
   return linha;

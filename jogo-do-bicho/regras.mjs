@@ -61,12 +61,44 @@ export function extrairMilhares(aleatorio = Math.random) {
 /** Retorna as posições premiadas em que o palpite bateu, em ordem de extração. */
 export function conferirPalpite(bilhete, milhares) {
   const concorrentes = bilhete.alcance === "cabeca" ? milhares.slice(0, 1) : milhares;
-  return concorrentes.flatMap((milhar, indice) => {
-    const valorSorteado = bilhete.modalidade === "grupo"
-      ? numeroComZeros(bichoDaMilhar(milhar).grupo)
-      : milhar.slice(-ALGARISMOS[bilhete.modalidade]);
-    return valorSorteado === bilhete.valor ? [indice + 1] : [];
-  });
+  return concorrentes.flatMap((milhar, indice) =>
+    valorDaModalidade(bilhete.modalidade, milhar) === bilhete.valor ? [indice + 1] : [],
+  );
+}
+
+/** Obtém a parte do resultado que vale para a modalidade. */
+function valorDaModalidade(modalidade, milhar) {
+  return modalidade === "grupo"
+    ? numeroComZeros(bichoDaMilhar(milhar).grupo)
+    : milhar.slice(-ALGARISMOS[modalidade]);
+}
+
+/** Explica a conferência com os mesmos valores usados para decidir os acertos. */
+export function explicarPalpite(bilhete, milhares, acertos = conferirPalpite(bilhete, milhares)) {
+  const { modalidade, alcance } = bilhete;
+  if (acertos.length) {
+    const milhar = milhares[acertos[0] - 1];
+    if (modalidade === "grupo") {
+      return `O final ${milhar.slice(-2)} da milhar ${milhar} é do ${bichoDaMilhar(milhar).nome}.`;
+    }
+    if (modalidade === "milhar") return `Os quatro algarismos de ${milhar} bateram com o palpite.`;
+    return `A milhar ${milhar} termina em ${valorDaModalidade(modalidade, milhar)}.`;
+  }
+
+  const sorteados = milhares.map((milhar) => modalidade === "grupo"
+    ? bichoDaMilhar(milhar).nome
+    : valorDaModalidade(modalidade, milhar),
+  );
+  if (alcance === "cabeca") {
+    const foraDaCabeca = conferirPalpite({ ...bilhete, alcance: "cercado" }, milhares);
+    const posicoes = foraDaCabeca.map((posicao) => `${posicao}º`).join(", ");
+    const motivo = foraDaCabeca.length
+      ? `Seu palpite bateu fora da cabeça (${posicoes}), mas só o 1º conta.`
+      : "Seu bilhete só vale no 1º prêmio.";
+    return `No 1º prêmio deu ${sorteados[0]}. ${motivo}`;
+  }
+
+  return `Do 1º ao 5º deu ${sorteados.join(" · ")}. Seu palpite ficou de fora.`;
 }
 
 /** Exibe as posições exatas que cada bilhete acertou. */

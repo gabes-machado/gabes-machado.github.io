@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { montarDadosExtrato } from "../jogo-do-bicho/extrato.mjs";
 import {
-  BICHOS, bichoDaMilhar, conferirPalpite, extrairMilhares,
+  BICHOS, bichoDaMilhar, conferirPalpite, explicarPalpite, extrairMilhares,
   numeroComZeros, palpiteValido,
 } from "../jogo-do-bicho/regras.mjs";
 
@@ -62,6 +62,30 @@ test("a conferência usa a posição e a quantidade correta de algarismos", () =
   assert.equal(numeroComZeros(1, 3), "001");
 });
 
+test("a explicação distingue um acerto fora da cabeça de um palpite ausente", () => {
+  const milhares = ["3152", "0088", "0000", "0123", "1388"];
+  const tigre = { modalidade: "grupo", valor: "22", alcance: "cabeca" };
+  const centena = { modalidade: "centena", valor: "088", alcance: "cercado" };
+  assert.match(explicarPalpite(tigre, milhares), /1º prêmio deu Galo.*fora da cabeça \(2º, 5º\)/);
+  assert.equal(
+    explicarPalpite({ ...tigre, alcance: "cercado" }, milhares),
+    "O final 88 da milhar 0088 é do Tigre.",
+  );
+  assert.equal(explicarPalpite(centena, milhares), "A milhar 0088 termina em 088.");
+  assert.match(
+    explicarPalpite({ ...centena, valor: "089" }, milhares),
+    /152 · 088 · 000 · 123 · 388.*ficou de fora/,
+  );
+  assert.match(
+    explicarPalpite({ modalidade: "milhar", valor: "0000", alcance: "cercado" }, milhares),
+    /quatro algarismos de 0000 bateram/,
+  );
+  assert.equal(
+    explicarPalpite({ modalidade: "dezena", valor: "39", alcance: "cabeca" }, milhares),
+    "No 1º prêmio deu 52. Seu bilhete só vale no 1º prêmio.",
+  );
+});
+
 test("a rota da festa tem uma página em português com URL canônica própria", async () => {
   const html = await readFile(new URL("../jogo-do-bicho/index.html", import.meta.url), "utf8");
   assert.match(html, /<html lang="pt-BR">/);
@@ -69,6 +93,8 @@ test("a rota da festa tem uma página em português com URL canônica própria",
   assert.match(html, /rel="stylesheet" href="\.\/jogo\.css"/);
   assert.match(html, /type="module" src="\.\/jogo\.mjs"/);
   assert.doesNotMatch(html, /class="(?:marca|faixa)"/);
+  assert.match(html, />Por que ninguém ganhou\?</);
+  assert.match(html, /<table class="regras-tabela">/);
 });
 
 test("o extrato inclui os cinco resultados e todos os bilhetes com seus acertos", () => {
